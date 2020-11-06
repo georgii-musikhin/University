@@ -24,12 +24,38 @@ public class StudentGenerator {
 
         for(int i = 0; i < 200; i++) {
             try {
-                dao.createStudent(generateName(firstNames, i), generateName(lastNames, i));
+                dao.addNewStudentToBase(generateName(firstNames, i), generateName(lastNames, i));
             } catch (DAOException e) {
                 e.printStackTrace();
                 throw new DomainException();
             }
         }
+   }
+
+   public void assignTwoHundredStudentsToGroups() throws DomainException {
+       for(int i = 1; i <= 200; i++) {
+           assignStudentToGroup(i);
+       }
+   }
+
+   public void createStudent(String firstName, String lastName) throws DomainException {
+        try {
+            dao.addNewStudentToBase(firstName, lastName);
+        } catch (DAOException e) {
+            e.printStackTrace();
+            throw new DomainException();
+        }
+   }
+
+   public void assignStudentToGroup(int studentID) throws DomainException {
+        Random random = new Random(studentID);
+
+       try {
+           dao.setStudentToGroup(studentID, random.nextInt(10) + 1);
+       } catch (DAOException e) {
+           e.printStackTrace();
+           throw new DomainException();
+       }
    }
 
     public String generateName(List<String> names, int seed) throws DomainException {

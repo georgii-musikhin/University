@@ -10,7 +10,7 @@ public class GroupGenerator {
     public void generateGroups() throws DomainException {
         for (int i = 0; i < 10; i++) {
             try {
-                dao.createGroup(generateName());
+                dao.addNewGroupInBase(generateName());
             } catch (DAOException e) {
                 e.printStackTrace();
                 throw new DomainException();

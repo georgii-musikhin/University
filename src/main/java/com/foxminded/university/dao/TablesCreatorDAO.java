@@ -15,10 +15,10 @@ public class TablesCreatorDAO {
     private DAOFactory daoFactory = new DAOFactory();
 
     public void createTables() throws DAOException {
-        String query = getQuery();
+        String query = getCreationTablesQuery();
 
         try(Connection connection = daoFactory.getConnection();
-            PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            PreparedStatement statement = connection.prepareStatement(query)) {
           statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -26,7 +26,7 @@ public class TablesCreatorDAO {
         }
     }
 
-    public String getQuery() throws DAOException {
+    public String getCreationTablesQuery() throws DAOException {
         try {
             Path queryPath = Paths.get(Objects.requireNonNull(CourseGenerator.class
                     .getClassLoader()
@@ -35,6 +35,22 @@ public class TablesCreatorDAO {
             return Files.lines(queryPath)
                     .collect(Collectors.joining(""));
         } catch (URISyntaxException | IOException e) {
+            e.printStackTrace();
+            throw new DAOException();
+        }
+    }
+
+    public void createStudentCoursesTable() throws DAOException {
+        String query = "DROP TABLE IF EXISTS students_courses CASCADE;\n" +
+                "CREATE TABLE students_courses (\n" +
+                "  student_id INTEGER REFERENCES students (student_id) ON DELETE CASCADE,\n" +
+                "  course_id  INTEGER REFERENCES courses (course_id) ON DELETE CASCADE,\n" +
+                "  PRIMARY KEY (student_id, course_id));";
+
+        try(Connection connection = daoFactory.getConnection();
+            PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.execute();
+        } catch (SQLException e) {
             e.printStackTrace();
             throw new DAOException();
         }

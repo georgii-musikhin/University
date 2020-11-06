@@ -11,7 +11,9 @@ CREATE TABLE students(
     group_id INTEGER DEFAULT NULL,
     first_name VARCHAR(30),
     last_name VARCHAR(30),
-    CONSTRAINT students_pkey PRIMARY KEY (student_id)
+    CONSTRAINT students_pkey PRIMARY KEY (student_id),
+    CONSTRAINT students_group_id_fkey FOREIGN KEY (group_id)
+            REFERENCES groups (group_id) ON DELETE SET DEFAULT
 );
 
 DROP TABLE IF EXISTS courses CASCADE;

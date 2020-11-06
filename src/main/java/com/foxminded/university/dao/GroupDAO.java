@@ -7,7 +7,7 @@ import java.sql.*;
 public class GroupDAO {
     private DAOFactory daoFactory = new DAOFactory();
 
-    public Group createGroup(String name) throws DAOException {
+    public Group addNewGroupInBase(String name) throws DAOException {
         String query = "INSERT INTO groups (group_name) VALUES (?);";
         Group group;
 

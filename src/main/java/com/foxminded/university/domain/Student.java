@@ -4,6 +4,7 @@ import java.util.List;
 
 public class Student {
     private int studentID;
+    private Group group;
     private String firstName;
     private String lastName;
     private List<Course> courses;
@@ -43,6 +44,15 @@ public class Student {
 
     public void setCourses(List<Course> courses) {
         this.courses = courses;
+    }
+
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
     }
 
     @Override

@@ -12,10 +12,14 @@ public class UniversityCreator {
     public void createUniversity() {
         try {
             tablesCreator.createTables();
+
             courseGenerator.generateAllCourses();
             groupGenerator.generateGroups();
             studentGenerator.generateTwoHundredStudents();
 
+            studentGenerator.assignTwoHundredStudentsToGroups();
+
+            tablesCreator.createStudentCoursesTable();
         } catch (DAOException | DomainException e) {
             e.printStackTrace();
         }
