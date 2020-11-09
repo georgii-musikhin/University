@@ -20,6 +20,7 @@ public class UniversityCreator {
             studentGenerator.assignTwoHundredStudentsToGroups();
 
             tablesCreator.createStudentCoursesTable();
+            studentGenerator.assignTwoHundredStudentsToCourses();
         } catch (DAOException | DomainException e) {
             e.printStackTrace();
         }

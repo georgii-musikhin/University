@@ -43,4 +43,19 @@ public class StudentDAO {
             throw new DAOException();
         }
     }
+
+    public void setStudentToCourse(int studentID, int courseID) throws DAOException {
+        String query = "INSERT INTO students_courses (student_id, course_id) VALUES (?, ?);";
+
+        try (Connection connection = daoFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+
+            statement.setInt(1, studentID);
+            statement.setInt(2, courseID);
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DAOException();
+        }
+    }
 }
