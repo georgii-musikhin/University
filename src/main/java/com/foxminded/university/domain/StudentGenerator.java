@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
-import java.util.zip.DataFormatException;
 
 import static java.nio.file.Files.readAllLines;
 
@@ -37,7 +36,12 @@ public class StudentGenerator {
 
        for(int i = 1; i <= 200; i++) {
            Random random = new Random(i);
-           assignStudentToGroup(i, random.nextInt(10) + 1);
+           try {
+               dao.setStudentToGroup(i, random.nextInt(10) + 1);
+           } catch (DAOException e) {
+               e.printStackTrace();
+               throw new DomainException();
+           }
        }
    }
 
@@ -47,35 +51,13 @@ public class StudentGenerator {
             Random random = new Random(i);
             int courseID = random.nextInt(7) + 1;
             for (int j = random.nextInt(3); j < 3; j++) {
-                assignStudentToCourse(i, courseID + j);
+                try {
+                    dao.setStudentToCourse(i, courseID + j);
+                } catch (DAOException e) {
+                    e.printStackTrace();
+                    throw new DomainException();
+                }
             }
-        }
-    }
-
-   public void createStudent(String firstName, String lastName) throws DomainException {
-        try {
-            dao.addNewStudentToBase(firstName, lastName);
-        } catch (DAOException e) {
-            e.printStackTrace();
-            throw new DomainException();
-        }
-   }
-
-   public void assignStudentToGroup(int studentID, int groudID) throws DomainException {
-       try {
-           dao.setStudentToGroup(studentID, groudID);
-       } catch (DAOException e) {
-           e.printStackTrace();
-           throw new DomainException();
-       }
-   }
-
-    public void assignStudentToCourse(int studentID, int courseID) throws DomainException {
-        try {
-            dao.setStudentToCourse(studentID, courseID);
-        } catch (DAOException e) {
-            e.printStackTrace();
-            throw new DomainException();
         }
     }
 

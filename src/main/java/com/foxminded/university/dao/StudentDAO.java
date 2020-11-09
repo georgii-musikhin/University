@@ -58,4 +58,18 @@ public class StudentDAO {
             throw new DAOException();
         }
     }
+
+    public void deleteStudentFromBaseById(int studentID) throws DAOException {
+        String query = "DELETE FROM students WHERE student_id = ?;";
+
+        try (Connection connection = daoFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+
+            statement.setInt(1, studentID);
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DAOException();
+        }
+    }
 }

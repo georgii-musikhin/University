@@ -1,17 +1,68 @@
 package com.foxminded.university.domain;
 
-import java.util.List;
+import com.foxminded.university.dao.CourseDAO;
+import com.foxminded.university.dao.DAOException;
+import com.foxminded.university.dao.StudentDAO;
+
+import java.util.Objects;
 
 public class Student {
     private int studentID;
-    private Group group;
+    private int groupID;
     private String firstName;
     private String lastName;
-    private List<Course> courses;
+    private final StudentDAO studentDAO = new StudentDAO();
+    private final CourseDAO courseDAO= new CourseDAO();
 
     public Student(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public Student createStudent(String firstName, String lastName) throws DomainException {
+        try {
+            Student student = studentDAO.addNewStudentToBase(firstName, lastName);
+            return student;
+        } catch (DAOException e) {
+            e.printStackTrace();
+            throw new DomainException();
+        }
+    }
+
+    public void deleteStudent() throws DomainException {
+        try {
+            studentDAO.deleteStudentFromBaseById(studentID);
+        } catch (DAOException e) {
+            e.printStackTrace();
+            throw new DomainException();
+        }
+    }
+
+    public void assignStudentToGroup(int groudID) throws DomainException {
+        try {
+            studentDAO.setStudentToGroup(studentID, groudID);
+        } catch (DAOException e) {
+            e.printStackTrace();
+            throw new DomainException();
+        }
+    }
+
+    public void assignStudentToCourse(int courseID) throws DomainException {
+        try {
+            studentDAO.setStudentToCourse(studentID, courseID);
+        } catch (DAOException e) {
+            e.printStackTrace();
+            throw new DomainException();
+        }
+    }
+
+    public void deleteStudentFromCourseById(int courseID) throws DomainException {
+        try {
+            courseDAO.deleteStudentFromCourse(studentID, courseID);
+        } catch (DAOException e) {
+            e.printStackTrace();
+            throw new DomainException();
+        }
     }
 
     public int getStudentID() {
@@ -38,29 +89,36 @@ public class Student {
         this.lastName = lastName;
     }
 
-    public List<Course> getCourses() {
-        return courses;
+    public int getGroupID() {
+        return groupID;
     }
 
-    public void setCourses(List<Course> courses) {
-        this.courses = courses;
+    public void setGroupID(int groupID) {
+        this.groupID = groupID;
     }
 
-
-    public Group getGroup() {
-        return group;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Student)) return false;
+        Student student = (Student) o;
+        return studentID == student.studentID &&
+                groupID == student.groupID &&
+                Objects.equals(firstName, student.firstName) &&
+                Objects.equals(lastName, student.lastName);
     }
 
-    public void setGroup(Group group) {
-        this.group = group;
+    @Override
+    public int hashCode() {
+        return Objects.hash(studentID, groupID, firstName, lastName);
     }
 
     @Override
     public String toString() {
         return "Student{" +
-                "studentID=" + studentID +
+                "groupID=" + groupID +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                '}';
+                "}\n";
     }
 }
