@@ -12,14 +12,11 @@ public class StudentDAO {
         Student student;
 
         try (Connection connection = daoFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-             ResultSet resultSet = statement.getGeneratedKeys()) {
+             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 
             statement.setString(1, firstName);
             statement.setString(2, lastName);
-            statement.execute();
-
-            resultSet.next();
+            statement.executeUpdate();
 
             student = new Student(firstName, lastName);
             return student;

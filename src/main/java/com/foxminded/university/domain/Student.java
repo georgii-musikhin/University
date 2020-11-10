@@ -19,6 +19,12 @@ public class Student {
         this.lastName = lastName;
     }
 
+    public Student(int studentID, String firstName, String lastName) {
+        this.studentID = studentID;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
     public Student createStudent(String firstName, String lastName) throws DomainException {
         try {
             Student student = studentDAO.addNewStudentToBase(firstName, lastName);
