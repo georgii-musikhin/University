@@ -10,6 +10,11 @@ public class Group {
         this.groupName = groupName;
     }
 
+    public Group(int groupID, String groupName) {
+        this.groupID = groupID;
+        this.groupName = groupName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

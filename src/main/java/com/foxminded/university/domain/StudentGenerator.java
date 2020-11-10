@@ -22,7 +22,7 @@ public class StudentGenerator {
     public void generateTwoHundredStudents() throws DomainException {
         getFirstAndLastNames();
 
-        for(int i = 0; i < 200; i++) {
+        for (int i = 0; i < 200; i++) {
             try {
                 dao.addNewStudentToBase(generateName(firstNames, i), generateName(lastNames, i));
             } catch (DAOException e) {
@@ -30,24 +30,24 @@ public class StudentGenerator {
                 throw new DomainException();
             }
         }
-   }
+    }
 
-   public void assignTwoHundredStudentsToGroups() throws DomainException {
+    public void assignTwoHundredStudentsToGroups() throws DomainException {
 
-       for(int i = 1; i <= 200; i++) {
-           Random random = new Random(i);
-           try {
-               dao.setStudentToGroup(i, random.nextInt(10) + 1);
-           } catch (DAOException e) {
-               e.printStackTrace();
-               throw new DomainException();
-           }
-       }
-   }
+        for (int i = 1; i <= 200; i++) {
+            Random random = new Random(i);
+            try {
+                dao.setStudentToGroup(i, random.nextInt(10) + 1);
+            } catch (DAOException e) {
+                e.printStackTrace();
+                throw new DomainException();
+            }
+        }
+    }
 
     public void assignTwoHundredStudentsToCourses() throws DomainException {
 
-        for(int i = 1; i <= 200; i++) {
+        for (int i = 1; i <= 200; i++) {
             Random random = new Random(i);
             int courseID = random.nextInt(7) + 1;
             for (int j = random.nextInt(3); j < 3; j++) {
@@ -63,8 +63,8 @@ public class StudentGenerator {
 
     public String generateName(List<String> names, int seed) throws DomainException {
         Random random = new Random(seed);
-        if(names != null) {
-            return  names.get(random.nextInt(names.size()));
+        if (names != null) {
+            return names.get(random.nextInt(names.size()));
         } else {
             throw new DomainException();
         }

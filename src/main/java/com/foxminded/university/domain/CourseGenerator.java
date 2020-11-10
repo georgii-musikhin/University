@@ -38,11 +38,11 @@ public class CourseGenerator {
 
             return Files.lines(coursesPath)
                     .collect(
-                        Collectors.toMap(
-                                k -> k.split("_")[0],
-                                v -> v.split("_")[1]
-                        )
-            );
+                            Collectors.toMap(
+                                    k -> k.split("_")[0],
+                                    v -> v.split("_")[1]
+                            )
+                    );
         } catch (URISyntaxException | IOException e) {
             e.printStackTrace();
             throw new DomainException();

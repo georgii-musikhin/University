@@ -7,22 +7,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GroupDAO {
-    private DAOFactory daoFactory = new DAOFactory();
+    private final DAOFactory daoFactory = new DAOFactory();
 
     public Group addNewGroupInBase(String name) throws DAOException {
         String query = "INSERT INTO groups (group_name) VALUES (?);";
-        Group group;
+        Group group = null;
 
         try (Connection connection = daoFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-             ResultSet resultSet = statement.getGeneratedKeys()) {
+             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 
             statement.setString(1, name);
             statement.execute();
 
-            resultSet.next();
+            try (ResultSet resultSet = statement.getGeneratedKeys()) {
+                if (resultSet.next()) {
+                    group = new Group(resultSet.getInt(1), name);
+                }
+            }
 
-            group = new Group(name);
             return group;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -51,7 +53,7 @@ public class GroupDAO {
                 }
             }
 
-            return  groups;
+            return groups;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new DAOException();

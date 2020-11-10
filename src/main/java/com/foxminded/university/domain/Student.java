@@ -12,7 +12,7 @@ public class Student {
     private String firstName;
     private String lastName;
     private final StudentDAO studentDAO = new StudentDAO();
-    private final CourseDAO courseDAO= new CourseDAO();
+    private final CourseDAO courseDAO = new CourseDAO();
 
     public Student(String firstName, String lastName) {
         this.firstName = firstName;
@@ -122,9 +122,10 @@ public class Student {
     @Override
     public String toString() {
         return "Student{" +
-                "groupID=" + groupID +
+                "studentID=" + studentID +
+                ", groupID=" + groupID +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                "}\n";
+                '}';
     }
 }

@@ -8,23 +8,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CourseDAO {
-    private DAOFactory daoFactory = new DAOFactory();
+    private final DAOFactory daoFactory = new DAOFactory();
 
     public Course createCourse(String name, String description) throws DAOException {
         String query = "INSERT INTO courses (course_name, course_description) VALUES (?, ?);";
-        Course course;
+        Course course = null;
 
         try (Connection connection = daoFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-             ResultSet resultSet = statement.getGeneratedKeys()) {
+             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 
             statement.setString(1, name);
             statement.setString(2, description);
             statement.execute();
 
-            resultSet.next();
+            try (ResultSet resultSet = statement.getGeneratedKeys()) {
+                if (resultSet.next()) {
+                    course = new Course(resultSet.getInt(1), name, description);
+                }
+            }
 
-            course = new Course(name, description);
             return course;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -40,7 +42,7 @@ public class CourseDAO {
         List<Student> students = new ArrayList<>();
 
         try (Connection connection = daoFactory.getConnection();
-            PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 
             statement.setString(1, courseName);
             statement.execute();
@@ -49,12 +51,12 @@ public class CourseDAO {
                 while (resultSet.next()) {
                     Student student =
                             new Student(resultSet.getString("first_name"), resultSet.getString("last_name"));
-                            student.setGroupID(resultSet.getInt("group_id"));
+                    student.setGroupID(resultSet.getInt("group_id"));
                     students.add(student);
                 }
             }
 
-            return  students;
+            return students;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new DAOException();
@@ -79,10 +81,10 @@ public class CourseDAO {
     public void addStudentsToCourse(List<Integer> studentIDs, int courseID) throws DAOException {
         String query = "INSERT INTO students_courses VALUES (?, ?);";
 
-        try(Connection connection = daoFactory.getConnection();
-            PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+        try (Connection connection = daoFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 
-            for(int id : studentIDs) {
+            for (int id : studentIDs) {
                 statement.setInt(1, id);
                 statement.setInt(2, courseID);
                 statement.execute();

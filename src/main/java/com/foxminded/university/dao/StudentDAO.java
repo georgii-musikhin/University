@@ -9,7 +9,7 @@ public class StudentDAO {
 
     public Student addNewStudentToBase(String firstName, String lastName) throws DAOException {
         String query = "INSERT INTO students (first_name, last_name) VALUES (?, ?);";
-        Student student;
+        Student student = null;
 
         try (Connection connection = daoFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
@@ -18,12 +18,16 @@ public class StudentDAO {
             statement.setString(2, lastName);
             statement.executeUpdate();
 
-            student = new Student(firstName, lastName);
-            return student;
+            try (ResultSet resultSet = statement.getGeneratedKeys()) {
+                if (resultSet.next()) {
+                    student = new Student(resultSet.getInt(1), firstName, lastName);
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             throw new DAOException();
         }
+        return student;
     }
 
     public void setStudentToGroup(int studentID, int groupID) throws DAOException {

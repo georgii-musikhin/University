@@ -17,6 +17,12 @@ public class Course {
         this.description = description;
     }
 
+    public Course(int courseID, String name, String description) {
+        this.courseID = courseID;
+        this.name = name;
+        this.description = description;
+    }
+
     public void addListOfStudentsToThisCourse(List<Student> students) throws DomainException {
         try {
             List<Integer> studentIDs = students.stream().map(Student::getStudentID).collect(Collectors.toList());

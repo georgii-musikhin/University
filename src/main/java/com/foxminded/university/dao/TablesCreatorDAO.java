@@ -17,9 +17,9 @@ public class TablesCreatorDAO {
     public void createTables() throws DAOException {
         String query = getCreationTablesQuery();
 
-        try(Connection connection = daoFactory.getConnection();
-            PreparedStatement statement = connection.prepareStatement(query)) {
-          statement.execute();
+        try (Connection connection = daoFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
             throw new DAOException();
@@ -47,8 +47,8 @@ public class TablesCreatorDAO {
                 "  course_id  INTEGER REFERENCES courses (course_id) ON DELETE CASCADE,\n" +
                 "  PRIMARY KEY (student_id, course_id));";
 
-        try(Connection connection = daoFactory.getConnection();
-            PreparedStatement statement = connection.prepareStatement(query)) {
+        try (Connection connection = daoFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
