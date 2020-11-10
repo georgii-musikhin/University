@@ -25,16 +25,6 @@ public class Student {
         this.lastName = lastName;
     }
 
-    public Student createStudent(String firstName, String lastName) throws DomainException {
-        try {
-            Student student = studentDAO.addNewStudentToBase(firstName, lastName);
-            return student;
-        } catch (DAOException e) {
-            e.printStackTrace();
-            throw new DomainException();
-        }
-    }
-
     public void deleteStudent() throws DomainException {
         try {
             studentDAO.deleteStudentFromBaseById(studentID);

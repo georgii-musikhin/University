@@ -3,13 +3,14 @@ package com.foxminded.university.domain;
 import com.foxminded.university.dao.DAOException;
 import com.foxminded.university.dao.TablesCreatorDAO;
 
-public class UniversityCreator {
+public class UniversityInitializator {
+
     private final TablesCreatorDAO tablesCreator = new TablesCreatorDAO();
     private final CourseGenerator courseGenerator = new CourseGenerator();
     private final GroupGenerator groupGenerator = new GroupGenerator();
     private final StudentGenerator studentGenerator = new StudentGenerator();
 
-    public void createUniversity() {
+    public void initializeUniversityData() {
         try {
             tablesCreator.createTables();
 

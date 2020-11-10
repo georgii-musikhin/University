@@ -46,7 +46,7 @@ public class GroupDAO {
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    Group group = new Group(resultSet.getString("group_name"));
+                    Group group = new Group(resultSet.getInt("group_id"), resultSet.getString("group_name"));
                     Integer count = resultSet.getInt("students");
 
                     groups.put(group, count);
