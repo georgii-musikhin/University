@@ -13,11 +13,17 @@ import java.util.stream.Collectors;
 
 public class University {
 
-    private final CourseDAO courseDAO = new CourseDAO();
-    private final StudentDAO studentDAO = new StudentDAO();
-    private final GroupDAO groupDAO = new GroupDAO();
+    private final CourseDAO courseDAO;
+    private final StudentDAO studentDAO;
+    private final GroupDAO groupDAO;
 
-    public University() {
+    public University(CourseDAO courseDAO, StudentDAO studentDAO, GroupDAO groupDAO) {
+        this.courseDAO = courseDAO;
+        this.studentDAO = studentDAO;
+        this.groupDAO = groupDAO;
+    }
+
+    public void initializeUniversityData() {
         UniversityInitializator initializator = new UniversityInitializator();
         initializator.initializeUniversityData();
     }
