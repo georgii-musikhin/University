@@ -23,6 +23,12 @@ public class University {
         this.groupDAO = groupDAO;
     }
 
+    public University() {
+        this.courseDAO = new CourseDAO();
+        this.studentDAO = new StudentDAO();
+        this.groupDAO = new GroupDAO();
+    }
+
     public void initializeUniversityData() {
         UniversityInitializator initializator = new UniversityInitializator();
         initializator.initializeUniversityData();

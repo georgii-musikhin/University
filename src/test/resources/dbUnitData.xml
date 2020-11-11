@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+    <table name="students">
+        <column>student_id</column>
+        <column>group_id</column>
+        <column>first_name</column>
+        <column>last_name</column>
+        <row>
+            <value>1</value>
+            <value>0</value>
+            <value>Ivan</value>
+            <value>Ivanov</value>
+        </row>
+</dataset>
