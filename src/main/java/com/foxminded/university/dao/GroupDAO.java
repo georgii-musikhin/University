@@ -1,6 +1,7 @@
 package com.foxminded.university.dao;
 
 import com.foxminded.university.domain.Group;
+import com.foxminded.university.domain.Student;
 
 import java.sql.*;
 import java.util.HashMap;
@@ -8,6 +9,30 @@ import java.util.Map;
 
 public class GroupDAO {
     private final DAOFactory daoFactory = new DAOFactory();
+
+    public Group getGroupById(int groupID) throws DAOException {
+        String query = "SELECT * FROM groups WHERE group_id = ?;";
+        Group group = null;
+
+        try (Connection connection = daoFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+
+            statement.setInt(1, groupID);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    group = new Group(resultSet.getInt(1), resultSet.getString(2));
+                }
+            }
+            if (group != null) {
+                return group;
+            } else {
+                throw new DAOException("Group not found!");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DAOException();
+        }
+    }
 
     public Group addNewGroupInBase(String name) throws DAOException {
         String query = "INSERT INTO groups (group_name) VALUES (?);";

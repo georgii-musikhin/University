@@ -97,28 +97,4 @@ public class StudentDAO {
             throw new DAOException();
         }
     }
-
-    public Student getStudentByFirstName(String firstName) throws DAOException {
-        String query = "SELECT * FROM students WHERE first_name = ?;";
-        Student student = null;
-
-        try (Connection connection = daoFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-
-            statement.setString(1, firstName);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    student = new Student(resultSet.getInt(1), resultSet.getInt(2), resultSet.getString(3), resultSet.getString(4));
-                }
-            }
-            if (student != null) {
-                return student;
-            } else {
-                throw new DAOException("Student not found!");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new DAOException();
-        }
-    }
 }

@@ -15,7 +15,7 @@ class StudentDAOTest {
     private StudentDAO studentDAO = new StudentDAO();
 
     @BeforeEach
-    void initDataBase() throws DAOException {
+    void setUp() throws DAOException {
         TablesCreatorDAO tablesCreatorDAO = new TablesCreatorDAO();
         tablesCreatorDAO.createTables();
     }
