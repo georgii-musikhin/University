@@ -4,6 +4,7 @@ import com.foxminded.university.dao.CourseDAO;
 import com.foxminded.university.dao.DAOException;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class Course {
@@ -55,5 +56,20 @@ public class Course {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Course)) return false;
+        Course course = (Course) o;
+        return courseID == course.courseID &&
+                Objects.equals(name, course.name) &&
+                Objects.equals(description, course.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(courseID, name, description);
     }
 }

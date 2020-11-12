@@ -20,7 +20,7 @@ class GroupDAOTest {
     }
 
     @Test
-    void getGroupById() throws DAOException {
+    void getGroupById_ShuoldReturnSuccess_WhenCreateRightGroup() throws DAOException {
         Group expected = new Group(1, "AS-49");
         Group actual = groupDAO.getGroupById(1);
 
@@ -28,7 +28,7 @@ class GroupDAOTest {
     }
 
     @Test
-    void addNewGroupInBase() throws DAOException {
+    void addNewGroupInBase_ShouldReturnSuccess_WhenFrindAddedGroup() throws DAOException {
         Group expected = new Group(3, "AS-32");
         Group actual = groupDAO.addNewGroupInBase("AS-32");
 
@@ -36,7 +36,7 @@ class GroupDAOTest {
     }
 
     @Test
-    void findGroupsWithThisOrLessStudentCount() throws DAOException {
+    void findGroupsWithThisOrLessStudentCount_ShouldReturnSuccess_WhenFindGroupWithOneStudent() throws DAOException {
         Group expected = new Group(1, "AS-49");
         StudentDAO studentDAO = new StudentDAO();
         studentDAO.setStudentToGroup(1, 1);
