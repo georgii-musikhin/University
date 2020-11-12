@@ -1,13 +1,13 @@
 DROP TABLE IF EXISTS groups CASCADE;
 CREATE TABLE groups (
-    group_id SERIAL NOT NULL,
+    group_id INT NOT NULL AUTO_INCREMENT,
     group_name VARCHAR(30),
     CONSTRAINT groups_pkey PRIMARY KEY (group_id)
 );
 
 DROP TABLE IF EXISTS students CASCADE;
 CREATE TABLE students(
-    student_id SERIAL NOT NULL,
+    student_id INT NOT NULL AUTO_INCREMENT,
     group_id INTEGER DEFAULT NULL,
     first_name VARCHAR(30),
     last_name VARCHAR(30),
@@ -18,7 +18,7 @@ CREATE TABLE students(
 
 DROP TABLE IF EXISTS courses CASCADE;
 CREATE TABLE courses(
-    course_id SERIAL NOT NULL,
+    course_id INT NOT NULL AUTO_INCREMENT,
     course_name VARCHAR(30),
     course_description VARCHAR(150),
     CONSTRAINT courses_pkey PRIMARY KEY (course_id)

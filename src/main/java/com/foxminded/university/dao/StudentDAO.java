@@ -5,7 +5,7 @@ import com.foxminded.university.domain.Student;
 import java.sql.*;
 
 public class StudentDAO {
-    private DAOFactory daoFactory = new DAOFactory();
+    private final DAOFactory daoFactory = new DAOFactory();
 
     public Student addNewStudentToBase(String firstName, String lastName) throws DAOException {
         String query = "INSERT INTO students (first_name, last_name) VALUES (?, ?);";
@@ -68,6 +68,54 @@ public class StudentDAO {
 
             statement.setInt(1, studentID);
             statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DAOException();
+        }
+    }
+
+    public Student getStudentById(int studentID) throws DAOException {
+        String query = "SELECT * FROM students WHERE student_id = ?;";
+        Student student = null;
+
+        try (Connection connection = daoFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+
+            statement.setInt(1, studentID);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    student = new Student(resultSet.getInt(1), resultSet.getInt(2), resultSet.getString(3), resultSet.getString(4));
+                }
+            }
+            if (student != null) {
+                return student;
+            } else {
+                throw new DAOException("Student not found!");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DAOException();
+        }
+    }
+
+    public Student getStudentByFirstName(String firstName) throws DAOException {
+        String query = "SELECT * FROM students WHERE first_name = ?;";
+        Student student = null;
+
+        try (Connection connection = daoFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+
+            statement.setString(1, firstName);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    student = new Student(resultSet.getInt(1), resultSet.getInt(2), resultSet.getString(3), resultSet.getString(4));
+                }
+            }
+            if (student != null) {
+                return student;
+            } else {
+                throw new DAOException("Student not found!");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             throw new DAOException();

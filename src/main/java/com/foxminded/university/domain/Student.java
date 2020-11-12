@@ -20,9 +20,14 @@ public class Student {
     }
 
     public Student(int studentID, String firstName, String lastName) {
+        this(firstName, lastName);
         this.studentID = studentID;
         this.firstName = firstName;
-        this.lastName = lastName;
+    }
+
+    public Student(int studentID, int groupID, String firstName, String lastName) {
+        this(studentID, firstName,lastName);
+        this.groupID = groupID;
     }
 
     public void deleteStudent() throws DomainException {

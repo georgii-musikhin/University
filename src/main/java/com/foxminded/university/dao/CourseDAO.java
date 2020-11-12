@@ -50,7 +50,7 @@ public class CourseDAO {
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     Student student =
-                            new Student(resultSet.getString("first_name"), resultSet.getString("last_name"));
+                            new Student(resultSet.getInt("student_id"), resultSet.getString("first_name"), resultSet.getString("last_name"));
                     student.setGroupID(resultSet.getInt("group_id"));
                     students.add(student);
                 }

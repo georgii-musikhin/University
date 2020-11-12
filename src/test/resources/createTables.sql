@@ -23,3 +23,22 @@ CREATE TABLE courses(
     course_description VARCHAR(150),
     CONSTRAINT courses_pkey PRIMARY KEY (course_id)
 );
+
+INSERT INTO students (first_name, last_name)  VALUES
+('Mikhail', 'Bobrov'),
+('Gera', 'Bodrov');
+
+INSERT INTO groups (group_name)  VALUES
+('AS-49'),
+('IT-15');
+
+INSERT INTO courses (course_name, course_description)  VALUES
+('FirstCourse', 'This is first course'),
+('SecondCourse', 'This is second course');
+
+DROP TABLE IF EXISTS STUDENTS_COURSES CASCADE;
+CREATE TABLE students_courses (
+    student_id INTEGER REFERENCES students (student_id) ON DELETE CASCADE,
+    course_id  INTEGER REFERENCES courses (course_id) ON DELETE CASCADE,
+    PRIMARY KEY (student_id, course_id)
+    );
