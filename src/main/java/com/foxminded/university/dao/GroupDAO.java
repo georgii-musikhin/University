@@ -1,7 +1,6 @@
 package com.foxminded.university.dao;
 
 import com.foxminded.university.domain.Group;
-import com.foxminded.university.domain.Student;
 
 import java.sql.*;
 import java.util.HashMap;

@@ -12,7 +12,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class TablesCreatorDAO {
-    private DAOFactory daoFactory = new DAOFactory();
+    private final DAOFactory daoFactory = new DAOFactory();
 
     public void createTables() throws DAOException {
         String query = getCreationTablesQuery();
