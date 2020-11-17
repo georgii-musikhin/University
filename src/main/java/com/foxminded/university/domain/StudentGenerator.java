@@ -90,7 +90,9 @@ public class StudentGenerator {
         }
     }
 
-    public void getFirstAndLastNames() throws DomainException {
+    public boolean getFirstAndLastNames() throws DomainException {
+        boolean success = true;
+
         try {
             Path firstNamesPath = Paths.get(Objects.requireNonNull(StudentGenerator.class
                     .getClassLoader()
@@ -102,9 +104,12 @@ public class StudentGenerator {
                     .toURI());
             firstNames = new ArrayList<>(readAllLines(firstNamesPath));
             lastNames = new ArrayList<>(readAllLines(lastNamesPath));
+            success = true;
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
             throw new DomainException();
         }
+
+        return success;
     }
 }
