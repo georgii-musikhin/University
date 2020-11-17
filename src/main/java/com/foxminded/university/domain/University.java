@@ -29,9 +29,9 @@ public class University {
         this.groupDAO = new GroupDAO();
     }
 
-    public void initializeUniversityData() {
+    public boolean initializeUniversityData() {
         UniversityInitializator initializator = new UniversityInitializator();
-        initializator.initializeUniversityData();
+        return initializator.initializeUniversityData();
     }
 
     public Map<Group, Integer> findUnfilledGroups(int studentCount) {

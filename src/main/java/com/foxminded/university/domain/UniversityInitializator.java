@@ -5,12 +5,26 @@ import com.foxminded.university.dao.TablesCreatorDAO;
 
 public class UniversityInitializator {
 
-    private final TablesCreatorDAO tablesCreator = new TablesCreatorDAO();
-    private final CourseGenerator courseGenerator = new CourseGenerator();
-    private final GroupGenerator groupGenerator = new GroupGenerator();
-    private final StudentGenerator studentGenerator = new StudentGenerator();
+    private TablesCreatorDAO tablesCreator;
+    private final CourseGenerator courseGenerator;
+    private final GroupGenerator groupGenerator;
+    private final StudentGenerator studentGenerator;
 
-    public void initializeUniversityData() {
+    public UniversityInitializator() {
+        tablesCreator = new TablesCreatorDAO();
+        courseGenerator = new CourseGenerator();
+        groupGenerator = new GroupGenerator();
+        studentGenerator = new StudentGenerator();
+    }
+
+    public UniversityInitializator(TablesCreatorDAO tablesCreator) {
+        this();
+        this.tablesCreator = tablesCreator;
+    }
+
+    public boolean initializeUniversityData() {
+        boolean success = false;
+
         try {
             tablesCreator.createTables();
 
@@ -22,8 +36,11 @@ public class UniversityInitializator {
 
             tablesCreator.createStudentCoursesTable();
             studentGenerator.assignTwoHundredStudentsToCourses();
+            success = true;
         } catch (DAOException | DomainException e) {
             e.printStackTrace();
         }
+
+        return success;
     }
 }
