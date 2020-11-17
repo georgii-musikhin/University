@@ -14,16 +14,20 @@ import java.util.stream.Collectors;
 public class TablesCreatorDAO {
     private final DAOFactory daoFactory = new DAOFactory();
 
-    public void createTables() throws DAOException {
+    public boolean createTables() throws DAOException {
+        boolean success = false;
         String query = getCreationTablesQuery();
 
         try (Connection connection = daoFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             statement.execute();
+            success = true;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new DAOException();
         }
+
+        return success;
     }
 
     public String getCreationTablesQuery() throws DAOException {
@@ -40,7 +44,8 @@ public class TablesCreatorDAO {
         }
     }
 
-    public void createStudentCoursesTable() throws DAOException {
+    public boolean createStudentCoursesTable() throws DAOException {
+        boolean success = false;
         String query = "DROP TABLE IF EXISTS students_courses CASCADE;\n" +
                 "CREATE TABLE students_courses (\n" +
                 "  student_id INTEGER REFERENCES students (student_id) ON DELETE CASCADE,\n" +
@@ -50,9 +55,12 @@ public class TablesCreatorDAO {
         try (Connection connection = daoFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             statement.execute();
+            success = true;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new DAOException();
         }
+
+        return success;
     }
 }
