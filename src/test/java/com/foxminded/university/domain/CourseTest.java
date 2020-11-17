@@ -25,6 +25,6 @@ class CourseTest {
         );
 
 
-        assertEquals(true, course.addListOfStudentsToThisCourse(students));
+        assertTrue(course.addListOfStudentsToThisCourse(students));
     }
 }

@@ -30,42 +30,6 @@ public class Student {
         this.groupID = groupID;
     }
 
-    public void deleteStudent() throws DomainException {
-        try {
-            studentDAO.deleteStudentFromBaseById(studentID);
-        } catch (DAOException e) {
-            e.printStackTrace();
-            throw new DomainException();
-        }
-    }
-
-    public void assignStudentToGroup(int groudID) throws DomainException {
-        try {
-            studentDAO.setStudentToGroup(studentID, groudID);
-        } catch (DAOException e) {
-            e.printStackTrace();
-            throw new DomainException();
-        }
-    }
-
-    public void assignStudentToCourse(int courseID) throws DomainException {
-        try {
-            studentDAO.setStudentToCourse(studentID, courseID);
-        } catch (DAOException e) {
-            e.printStackTrace();
-            throw new DomainException();
-        }
-    }
-
-    public void deleteStudentFromCourseById(int courseID) throws DomainException {
-        try {
-            courseDAO.deleteStudentFromCourse(studentID, courseID);
-        } catch (DAOException e) {
-            e.printStackTrace();
-            throw new DomainException();
-        }
-    }
-
     public int getStudentID() {
         return studentID;
     }

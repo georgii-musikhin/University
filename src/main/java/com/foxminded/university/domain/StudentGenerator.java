@@ -15,37 +15,54 @@ import java.util.Random;
 import static java.nio.file.Files.readAllLines;
 
 public class StudentGenerator {
-    private final StudentDAO dao = new StudentDAO();
+    private final StudentDAO dao;
     private List<String> firstNames;
     private List<String> lastNames;
 
-    public void generateTwoHundredStudents() throws DomainException {
+    public StudentGenerator() {
+        dao = new StudentDAO();
+    }
+
+    public StudentGenerator(StudentDAO dao) {
+        this.dao = dao;
+    }
+
+    public boolean generateTwoHundredStudents() throws DomainException {
+        boolean success = false;
         getFirstAndLastNames();
 
         for (int i = 0; i < 200; i++) {
             try {
                 dao.addNewStudentToBase(generateName(firstNames, i), generateName(lastNames, i));
+                success = true;
             } catch (DAOException e) {
                 e.printStackTrace();
                 throw new DomainException();
             }
         }
+
+        return success;
     }
 
-    public void assignTwoHundredStudentsToGroups() throws DomainException {
+    public boolean assignTwoHundredStudentsToGroups() throws DomainException {
+        boolean success = false;
 
         for (int i = 1; i <= 200; i++) {
             Random random = new Random(i);
             try {
                 dao.setStudentToGroup(i, random.nextInt(10) + 1);
+                success = true;
             } catch (DAOException e) {
                 e.printStackTrace();
                 throw new DomainException();
             }
         }
+
+        return success;
     }
 
-    public void assignTwoHundredStudentsToCourses() throws DomainException {
+    public boolean assignTwoHundredStudentsToCourses() throws DomainException {
+        boolean success = false;
 
         for (int i = 1; i <= 200; i++) {
             Random random = new Random(i);
@@ -53,12 +70,15 @@ public class StudentGenerator {
             for (int j = random.nextInt(3); j < 3; j++) {
                 try {
                     dao.setStudentToCourse(i, courseID + j);
+                    success = true;
                 } catch (DAOException e) {
                     e.printStackTrace();
                     throw new DomainException();
                 }
             }
         }
+
+        return success;
     }
 
     public String generateName(List<String> names, int seed) throws DomainException {

@@ -13,20 +13,32 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class CourseGenerator {
-    private final CourseDAO dao = new CourseDAO();
+    private final CourseDAO dao;
 
-    public void generateAllCourses() throws DomainException {
+    public CourseGenerator() {
+        dao = new CourseDAO();
+    }
+
+    public CourseGenerator(CourseDAO dao) {
+        this.dao = dao;
+    }
+
+    public boolean generateAllCourses() throws DomainException {
+        boolean success = false;
+
         try {
             Map<String, String> courses = getCourses();
 
             for (Map.Entry<String, String> entry : courses.entrySet()) {
                 dao.createCourse(entry.getKey(), entry.getValue());
             }
+            success = true;
         } catch (DAOException e) {
             e.printStackTrace();
             throw new DomainException();
         }
 
+        return success;
     }
 
     public Map<String, String> getCourses() throws DomainException {
