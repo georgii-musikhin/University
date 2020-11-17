@@ -113,4 +113,13 @@ public class University {
 
         return success;
     }
+
+    public Student getStudentByID(int studentID) throws DomainException {
+        try {
+            return studentDAO.getStudentById(studentID);
+        } catch (DAOException e) {
+            e.printStackTrace();
+            throw new DomainException();
+        }
+    }
 }
